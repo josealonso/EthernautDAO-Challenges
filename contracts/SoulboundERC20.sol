@@ -7,7 +7,7 @@ pragma solidity >=0.8.0;
 /// @author JR_Madrid (https://github.com/josealonso/) Modified to make it a soulbound token
 /// @dev Do not manually set balances without updating totalSupply, as the sum of all user balances must not exceed it.
 
-abstract contract ERC20 {
+abstract contract SoulboundERC20 {
     /*//////////////////////////////////////////////////////////////
                             METADATA STORAGE
     //////////////////////////////////////////////////////////////*/
@@ -30,22 +30,6 @@ abstract contract ERC20 {
 
     // @dev For the soulbound feature
     mapping(address => bool) public isTransferDisabled;
-
-    /*//////////////////////////////////////////////////////////////
-                                 EVENTS
-    //////////////////////////////////////////////////////////////*/
-
-    event Transfer(address indexed from, address indexed to, uint256 amount);
-
-    event Approval(
-        address indexed owner,
-        address indexed spender,
-        uint256 amount
-    );
-
-    // @dev For the soulbound feature
-    event ApprovedMinter(address indexed potentialMinter);
-    event TransferDisabled(address indexed to);
 
     /*//////////////////////////////////////////////////////////////
                                CONSTRUCTOR
@@ -170,4 +154,20 @@ abstract contract ERC20 {
 
         emit Transfer(from, address(0), amount);
     }
+
+    /*//////////////////////////////////////////////////////////////
+                                 EVENTS
+    //////////////////////////////////////////////////////////////*/
+
+    event Transfer(address indexed from, address indexed to, uint256 amount);
+
+    event Approval(
+        address indexed owner,
+        address indexed spender,
+        uint256 amount
+    );
+
+    // @dev For the soulbound feature
+    event ApprovedMinter(address indexed potentialMinter);
+    event TransferDisabled(address indexed to);
 }
