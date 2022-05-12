@@ -6,6 +6,7 @@
 - No limit on total supply
 - Transfer capabilities must be disabled after minting (soulbound)
 
+Solutions ----> *EXPToken.sol* inherits from *SoulboundERC20.sol*
 
 #### 2nd Bounty: Create a nontransferable mutable NFT. Mintable NFT, nontransferable capable of reading and displaying how many EXP tokens you have (1000$)
 
@@ -14,9 +15,3 @@
 - The number shown by the NFT must reflect the EXP balance of the owner on the NFT
 - Transfer capabilities must be disabled after minting (soulbound)
 
-
-
-
-```shell
-npx hardhat verify --network ropsten DEPLOYED_CONTRACT_ADDRESS "Hello, Hardhat!"
-```
