@@ -107,13 +107,11 @@ abstract contract SoulboundERC20 {
         internal
         virtual
         onlyOwner
-    // returns (bool)
     {
         minters[potentialMinter] = canMint;
         if (canMint) {
             emit ApprovedMinter(potentialMinter);
         }
-        // return true;
     }
 
     modifier onlyOwner() {
