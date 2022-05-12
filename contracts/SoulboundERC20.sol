@@ -22,9 +22,6 @@ abstract contract SoulboundERC20 {
                               ERC20 STORAGE
     //////////////////////////////////////////////////////////////*/
 
-    // uint256 public totalSupply;
-    uint256 public totalSupply = 100;
-
     mapping(address => uint256) public balanceOf;
 
     mapping(address => mapping(address => uint256)) public allowance;
@@ -108,9 +105,12 @@ abstract contract SoulboundERC20 {
 
     function setApprovedMinter(address potentialMinter, bool canMint)
         public
+        virtual
         onlyOwner
         returns (bool)
     {
+        minters[potentialMinter] = canMint;
+
         emit ApprovedMinter(potentialMinter);
 
         return true;
@@ -134,8 +134,7 @@ abstract contract SoulboundERC20 {
     //////////////////////////////////////////////////////////////*/
 
     function _mint(address to, uint256 amount) internal virtual {
-        totalSupply += amount;
-
+    
         // Cannot overflow because the sum of all user
         // balances can't exceed the max uint256 value.
         unchecked {
@@ -153,10 +152,7 @@ abstract contract SoulboundERC20 {
 
         // Cannot underflow because a user's balance
         // will never be larger than the total supply.
-        unchecked {
-            totalSupply -= amount;
-        }
-
+    
         emit Transfer(from, address(0), amount);
     }
 
