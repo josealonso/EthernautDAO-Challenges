@@ -25,6 +25,11 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
 const config: HardhatUserConfig = {
   solidity: "0.8.4",
   networks: {
+    rinkeby: {
+      url: process.env.RINKEBY_API_KEY_URL || "",
+      accounts:
+        process.env.RINKEBY_PRIVATE_KEY !== undefined ? [process.env.RINKEBY_PRIVATE_KEY] : [],
+    },
     ropsten: {
       url: process.env.ROPSTEN_URL || "",
       accounts:

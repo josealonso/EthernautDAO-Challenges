@@ -4,7 +4,7 @@ import { BigNumberish, Contract, Wallet } from "ethers";
 import { ethers } from "hardhat";
 import { EXPToken, EXPToken__factory } from "../typechain";
 
-describe("EXPToken - Alice mints tokens", function () {
+describe("EXPToken - Alice is allowed to mint tokens", function () {
   let EXPTokenFactory: EXPToken__factory;
   let EXPToken: EXPToken;
   let aliceWallet: Wallet;
@@ -16,18 +16,22 @@ describe("EXPToken - Alice mints tokens", function () {
     EXPTokenFactory = await ethers.getContractFactory("EXPToken");
     EXPToken = await EXPTokenFactory.deploy();
     await EXPToken.deployed();
+    await EXPToken.setApprovedMinter(aliceWallet.address, true);
+    await EXPToken.mint(aliceWallet.address, AMOUNT);
   })
-
-  beforeEach(async () => {
-    EXPToken.mint(aliceWallet.address, AMOUNT);
-  })
-
-  it("Alice balance should be equal to 100 tokens", async function () {
-    expect(await EXPToken.balanceOf(aliceWallet.address)).to.equal(ethers.utils.parseUnits("10", 18));
-  });
 
   it("A TransferDisabled event should be emitted after having minted tokens", async function () {
-    await expect(EXPToken.emit("TransferDisabled"));
+    await expect(EXPToken.mint(aliceWallet.address, AMOUNT))
+      .to.emit(EXPToken, "TransferDisabled")
+      .withArgs(aliceWallet.address)
+  });
+
+  it("Bob should not be able to mint", async function () {
+    await expect(EXPToken.mint(bobWallet.address, AMOUNT)).to.be.revertedWith("No minting permissions");
+  });
+
+  it("Alice balance should be equal to 200 tokens", async function () {
+    expect(await EXPToken.balanceOf(aliceWallet.address)).to.equal(AMOUNT.mul(2));
   });
 
   it("transfer() should not work after having minted tokens", async function () {
