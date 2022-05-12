@@ -1,6 +1,5 @@
-import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { expect } from "chai";
-import { deployContract, MockProvider } from "ethereum-waffle";
+import { MockProvider } from "ethereum-waffle";
 import { BigNumberish, Contract, Wallet } from "ethers";
 import { ethers } from "hardhat";
 import { EXPToken, EXPToken__factory } from "../typechain";
@@ -10,8 +9,6 @@ describe("EXPToken - Alice mints tokens", function () {
   let EXPToken: EXPToken;
   let aliceWallet: Wallet;
   let bobWallet: Wallet;
-  let token: Contract;
-  // aliceSigner = ethers.getSigner;
   [aliceWallet, bobWallet] = new MockProvider().getWallets();
   const AMOUNT: BigNumberish = ethers.utils.parseUnits("10", 18);
 
@@ -26,7 +23,6 @@ describe("EXPToken - Alice mints tokens", function () {
   })
 
   it("Alice balance should be equal to 100 tokens", async function () {
-    // expect(await EXPToken.balanceOf(aliceWallet.address)).to.equal(10);
     expect(await EXPToken.balanceOf(aliceWallet.address)).to.equal(ethers.utils.parseUnits("10", 18));
   });
 
