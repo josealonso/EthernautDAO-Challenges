@@ -31,18 +31,15 @@ describe("EXPToken - Alice mints tokens", function () {
   });
 
   it("transfer() should not work after having minted tokens", async function () {
-    // await expect(EXPToken.transfer(bobWallet.address, AMOUNT)).to.be.revertedWith("Non-transferrable token");
     await expect(EXPToken.transfer(aliceWallet.address, AMOUNT)).to.be.revertedWith("Non-transferrable token");
   });
 
   it("transferFrom() should not work after having minted tokens", async function () {
-    // await expect(EXPToken.transferFrom(aliceWallet.address, bobWallet.address, AMOUNT)).to.be.revertedWith("Non-transferrable token");
     await expect(EXPToken.transferFrom(aliceWallet.address, aliceWallet.address, AMOUNT)).to.be.revertedWith("Non-transferrable token");
   });
 
   it("approve() should not work after having minted tokens", async function () {
     await expect(EXPToken.approve(aliceWallet.address, AMOUNT)).to.be.revertedWith("Non-transferrable token");
-    // await expect(EXPToken.approve(bobWallet.address, ethers.utils.parseUnits("1", 18))).
   });
 
 });
