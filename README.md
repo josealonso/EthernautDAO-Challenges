@@ -15,3 +15,11 @@ Solutions ----> *EXPToken.sol* inherits from *SoulboundERC20.sol*
 - The number shown by the NFT must reflect the EXP balance of the owner on the NFT
 - Transfer capabilities must be disabled after minting (soulbound)
 
+#### 3rd Bounty: Create a 1 time hackable lvl. (500$)
+
+- Create a hackable smart contract
+- Contact Dhante from EthernautDAO
+- Get the smart contract verified and receive (3 EXP) + ($500)
+- The DAO deploys the contract and announces it
+- Someone hacks the contract (1 EXP)
+- Someone writes an article on how this smart contract was solved (3 EXP)
