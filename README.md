@@ -6,7 +6,33 @@
 - No limit on total supply
 - Transfer capabilities must be disabled after minting (soulbound)
 
-Solutions ----> *EXPToken.sol* inherits from *SoulboundERC20.sol*
+## Solutions ----> *EXPToken.sol* inherits from *SoulboundERC20.sol*
+
+## Tests coverage
+
+`npx hardhat coverage`
+
+```
+ EXPToken - Alice is allowed to mint tokens
+    ✔ A TransferDisabled event should be emitted after having minted tokens (296ms)
+    ✔ Bob should not be able to mint (384ms)
+    ✔ Alice balance should be equal to 200 tokens (169ms)
+    ✔ transfer() should not work after having minted tokens (317ms)
+    ✔ transferFrom() should not work after having minted tokens (334ms)
+    ✔ approve() should not work after having minted tokens (357ms)
+
+  6 passing (5s)
+
+---------------------|----------|----------|----------|----------|----------------|
+File                 |  % Stmts | % Branch |  % Funcs |  % Lines |Uncovered Lines |
+---------------------|----------|----------|----------|----------|----------------|
+ contracts/          |       50 |       50 |    61.54 |    48.65 |                |
+  EXPToken.sol       |      100 |      100 |      100 |      100 |                |
+  SoulboundERC20.sol |    46.67 |       50 |    55.56 |    45.71 |... 127,150,155 |
+---------------------|----------|----------|----------|----------|----------------|
+All files            |       50 |       50 |    61.54 |    48.65 |                |
+---------------------|----------|----------|----------|----------|----------------|
+```
 
 #### 2nd Bounty: Create a nontransferable mutable NFT. Mintable NFT, nontransferable capable of reading and displaying how many EXP tokens you have (1000$)
 
