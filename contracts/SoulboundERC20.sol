@@ -76,9 +76,9 @@ abstract contract SoulboundERC20 {
         balanceOf[msg.sender] -= amount;
         // Cannot overflow because the sum of all user
         // balances can't exceed the max uint256 value.
-        // unchecked {
-        balanceOf[to] += amount;
-        // }
+        unchecked {
+            balanceOf[to] += amount;
+        }
 
         emit Transfer(msg.sender, to, amount);
 

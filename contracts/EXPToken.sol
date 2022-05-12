@@ -4,7 +4,6 @@ pragma solidity >=0.8.0;
 import "./SoulboundERC20.sol";
 
 contract EXPToken is SoulboundERC20("EXPToken", "EXP", 18) {
-    // totalSupply = 100;
     function mint(address to, uint256 amount) public {
         _mint(to, amount);
     }
