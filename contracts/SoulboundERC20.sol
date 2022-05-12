@@ -22,7 +22,8 @@ abstract contract SoulboundERC20 {
                               ERC20 STORAGE
     //////////////////////////////////////////////////////////////*/
 
-    uint256 public totalSupply;
+    // uint256 public totalSupply;
+    uint256 public totalSupply = 100;
 
     mapping(address => uint256) public balanceOf;
 
@@ -30,6 +31,7 @@ abstract contract SoulboundERC20 {
 
     // @dev For the soulbound feature
     mapping(address => bool) public isTransferDisabled;
+    mapping(address => bool) public minters;
 
     /*//////////////////////////////////////////////////////////////
                                CONSTRUCTOR
@@ -74,9 +76,9 @@ abstract contract SoulboundERC20 {
         balanceOf[msg.sender] -= amount;
         // Cannot overflow because the sum of all user
         // balances can't exceed the max uint256 value.
-        unchecked {
-            balanceOf[to] += amount;
-        }
+        // unchecked {
+        balanceOf[to] += amount;
+        // }
 
         emit Transfer(msg.sender, to, amount);
 
@@ -120,7 +122,10 @@ abstract contract SoulboundERC20 {
     }
 
     modifier nonTransferrable(address _sender) {
-        require(isTransferDisabled[_sender] == false, "Soulbound token !!");
+        require(
+            isTransferDisabled[_sender] == false,
+            "Non-transferrable token"
+        );
         _;
     }
 
