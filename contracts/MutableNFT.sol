@@ -5,10 +5,9 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract MutableNFT is ERC721 {
+contract MutableNFT is ERC721, Ownable {
     using Counters for Counters.Counter;
 
-    mapping(string => bool) private takenNames;
     mapping(uint256 => Attr) public attributes;
 
     struct Attr {
@@ -22,12 +21,26 @@ contract MutableNFT is ERC721 {
         return "https://YOUR_API/api/erc721";
     }
 
-    function mint(address to) public returns (uint256) {
-        require(_tokenIdCounter.current() < 3, "");
-        _tokenIdCounter.increment();
-        _safeMint(to, _tokenIdCounter.current());
+    function _burn(uint256 tokenId) internal override(ERC721) {
+        super._burn(tokenId);
+    }
 
-        return _tokenIdCounter.current();
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        override(ERC721)
+        returns (bool)
+    {
+        return super.supportsInterface(interfaceId);
+    }
+
+    function mint(
+        address to,
+        uint256 tokenId,
+        uint8 _eXPBalance
+    ) public onlyOwner {
+        _safeMint(to, tokenId);
+        attributes[tokenId] = Attr(_eXPBalance);
     }
 }
 
