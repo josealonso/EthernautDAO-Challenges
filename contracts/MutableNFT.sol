@@ -175,6 +175,7 @@ contract MutableNFT is ERC721, Ownable {
     mapping(uint256 => Attr) public attributes;
 
     struct Attr {
+        string name;
         uint8 eXPBalance;
     }
     Counters.Counter private _tokenIdCounter;
@@ -207,10 +208,6 @@ contract MutableNFT is ERC721, Ownable {
         return string(bstr);
     }
 
-    function _baseURI() internal pure override returns (string memory) {
-        return "https://YOUR_API/api/erc721";
-    }
-
     function _burn(uint256 tokenId) internal override(ERC721) {
         super._burn(tokenId);
     }
@@ -227,16 +224,46 @@ contract MutableNFT is ERC721, Ownable {
     function mint(
         address to,
         uint256 tokenId,
+        string memory _name,
         uint8 _eXPBalance
     ) public onlyOwner {
         _safeMint(to, tokenId);
-        attributes[tokenId] = Attr(_eXPBalance);
+        attributes[tokenId] = Attr(_name, _eXPBalance);
     }
 
-    function getSVG(uint256 tokenId) private pure returns (string memory) {
+    function getSVG(uint256 tokenId) private view returns (string memory) {
         string memory svg;
         svg = "<svg width='24px' height='24px' viewBox='0 0 24 24' role='img' xmlns='http://www.w3.org/2000/svg'><title>Sublime Text icon</title><path d='M21.24,12.06a.72.72,0,0,0-.46-.65L13.4,9.07l7.37-2.34a.73.73,0,0,0,.47-.66V.38A.35.35,0,0,0,20.77,0L3.23,5.58a.68.68,0,0,0-.47.64v5.7a.65.65,0,0,0,.46.62l7.46,2.37L3.22,17.27a.73.73,0,0,0-.46.66v5.69a.34.34,0,0,0,.46.36l17.56-5.57a.65.65,0,0,0,.46-.62Z'/></svg>";
         return svg;
+    }
+
+    function tokenURI(uint256 tokenId)
+        public
+        pure
+        override(ERC721)
+        returns (string memory)
+    {
+        string memory json = Base64.encode(
+            bytes(
+                string(
+                    abi.encodePacked(
+                        "{name",
+                        ":",
+                        attributes[tokenId].name,
+                        "image_data",
+                        ":",
+                        "getSVG(tokenId)",
+                        "}"
+                        // "{'name': attributes[tokenId].name,
+                        // ",",
+                        // "'image_data':" getSVG(tokenId)}
+                        // '",',
+                        // "]}"
+                    )
+                )
+            )
+        );
+        return string(abi.encodePacked("data:application/json;base64,", json));
     }
 }
 
